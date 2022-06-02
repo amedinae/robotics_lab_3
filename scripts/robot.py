@@ -33,7 +33,7 @@ class Generator:
             oldqt=qinv_lm.q
             i=i+1
         points = np.around(points, 3)
-        np.savetxt(f"scripts/trayectories/{name}.csv", points, delimiter=",")
+        np.savetxt(f"scripts/trajectories/{name}.csv", points, delimiter=",")
         return points
 
 if __name__ == "__main__":
@@ -114,9 +114,6 @@ if __name__ == "__main__":
     sexta = SE3(np.array([[1,0,0,14], [0,1,0,0],[0,0,-1,-3], [0,0,0,1]]))
     septima = SE3(np.array([[1,0,0,18], [0,1,0,0],[0,0,-1,-3], [0,0,0,1]]))
     octava = SE3(np.array([[1,0,0,18], [0,1,0,0],[0,0,-1,5], [0,0,0,1]]))
-    #novena = SE3(np.array([[1,0,0,-12], [0,1,0,0],[0,0,-1,5], [0,0,0,1]]))
-    #decima = SE3(np.array([[1,0,0,-12], [0,1,0,-12],[0,0,-1,5], [0,0,0,1]]))
-    #onceava = SE3(np.array([[1,0,0,-15], [0,1,0,-12],[0,0,-1,-6.6], [0,0,0,1]]))
 
     generator = Generator()
     
@@ -144,18 +141,7 @@ if __name__ == "__main__":
     #Para definir trayectoria 8
     points8 = generator.generateTrayectory(points7[-1],septima,octava,'octava')
 
-    #Para definir trayectoria 9
-    #points9 = generator.generateTrayectory(points7[-1],octava,novena,'novena')
-
-    #Para definir trayectoria 10
-    #points10 = generator.generateTrayectory(points7[-1],novena,decima,'decima')
-
-    #Para definir trayectoria 11
-    #points11 = generator.generateTrayectory(points7[-1],decima,onceava,'onceava')
-
     generator.totalTrayectory = np.array(generator.totalTrayectory)
-    print(generator.totalTrayectory.shape)
     robot.plot(generator.totalTrayectory,'pyplot')
-    print("Posicion real")
+    print("Posicion final")
     print(robot.fkine(generator.totalTrayectory[-1]))
-    #input()
