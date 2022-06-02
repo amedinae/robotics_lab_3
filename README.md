@@ -207,5 +207,7 @@ break
 except rospy.ROSInterruptException:
 pass
 ```
+Podemos comparar el movimiento simulado en el toolbox:
 ![](images/simulacion.gif)
+Con el movimiento real del robot Phantom X:
 ![](images/real.gif)
