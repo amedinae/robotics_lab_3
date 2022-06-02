@@ -8,7 +8,7 @@ import time
 from smooth import smooth
 
 def deg2rad(value):
-    return value*pi/180
+    return value*np.pi/180
 
 class Generator:
 
