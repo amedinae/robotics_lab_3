@@ -27,6 +27,3 @@ def smooth(trayectory):
         #plt.bar(langs,q)
         #plt.show()
     return np.transpose(trayectory)
-    
-segunda = np.genfromtxt('scripts/trayectories/segunda.csv', delimiter=',')
-smooth(segunda)

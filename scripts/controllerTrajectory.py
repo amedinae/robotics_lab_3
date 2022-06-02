@@ -50,8 +50,8 @@ def rad2bin(value):
     toHigh = 1023
     return int(np.around((value-fromLow) * (toHigh - toLow) / (fromHigh - fromLow)+ toLow,0))
 
-def runTrajectory(primera):
-    for point in primera:
+def runTrajectory(trajectory):
+    for point in trajectory:
         for index,q in enumerate(point):
             toPosition = rad2bin(point[index])
             index += 1

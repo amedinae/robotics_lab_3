@@ -22,14 +22,10 @@ class Generator:
         i=0
         points = np.zeros((steps,4))
         for traj in MTHtraj:
-            #print(i)
-            #print(traj)
             qinv_lm=robot.ikine_LM(traj,oldqt,mask)
             points[i,:] = (qinv_lm.q)
             self.totalTrayectory.append(qinv_lm.q)
             print(qinv_lm)
-            #robot.plot(qinv_lm.q)
-            #print(qinv_lm.q*180/np.pi)
             oldqt=qinv_lm.q
             i=i+1
         points = np.around(points, 3)
@@ -50,7 +46,7 @@ if __name__ == "__main__":
     robot.tool = np.array([[0,0,1,0], [-1,0,0,0],[0,-1,0,0], [0,0,0,1]])
     print(robot)
 
-    qt = np.deg2rad(np.array([0, 0, 0, 0]))    
+    qt = np.deg2rad(np.array([30, 30, 30, 30]))    
     print('qt = ', qt*180/np.pi)
     Tt = robot.fkine(qt)
    
@@ -85,26 +81,23 @@ if __name__ == "__main__":
 
     qinv = np.empty((1,4))
     qinv[:] =np.NaN
-    #q1=q1+np.pi;
-    #q2=-q2;
-    #q3=-q3;
-    #q4=-q4;
     qinv[0,:] = np.array([q1, q2, q3, q4])    
     
-    #robot.plot(qt,block=False)
-    #trplot( transl(0,0,0), color='rgb', width=1, frame='0', length=5)
-    #print(robot.fkine(qt))
+    robot.plot(qt,block=False)
+    trplot( transl(0,0,0), color='rgb', width=1, frame='0', length=5)
+    print(robot.fkine(qt))
     
-    #print('qinv = ',qinv*180/np.pi)
-    #robot.plot(qinv_lm,block=False)
-    #trplot( transl(0,0,0), color='rgb', width=1, frame='0', length=5)    
-    #robot.teach(qinv)       
+    # print('qinv = ',qinv*180/np.pi)
+    # robot.plot(qinv,block=False)
+    # trplot( transl(0,0,0), color='rgb', width=1, frame='0', length=5)    
+    # robot.teach(qinv)       
     
-    #qinv_lm=robot.ikine_LM(Tt)
-    #print(qinv_lm)
-    #print('qinv_lm = ', qinv_lm.q*180/np.pi)
-    #print(robot.fkine(qinv_lm.q))
-    #robot.teach(qinv_lm.q)
+    qinv_lm=robot.ikine_LM(Tt)
+    print(qinv_lm)
+    print('qinv_lm = ', qinv_lm.q*180/np.pi)
+    print(robot.fkine(qinv_lm.q))
+    robot.teach(qinv_lm.q)
+
     home = Tt
     primera = SE3(np.array([[0,0,1,25.46], [0,1,0,0],[-1,0,0,18.53], [0,0,0,1]]))
     segunda = SE3(np.array([[1,0,0,11], [0,1,0,0],[0,0,-1,5], [0,0,0,1]]))
@@ -142,6 +135,13 @@ if __name__ == "__main__":
     points8 = generator.generateTrayectory(points7[-1],septima,octava,'octava')
 
     generator.totalTrayectory = np.array(generator.totalTrayectory)
-    robot.plot(generator.totalTrayectory,'pyplot')
-    print("Posicion final")
+    robot.plot(generator.totalTrayectory,'pyplot',movie="simulacion.gif")
+    print("Posicion alcanzada")
+    print(octava)
+    print("Posicion alcanzada")
     print(robot.fkine(generator.totalTrayectory[-1]))
+    print("Error")
+    difference_array = octava - robot.fkine(generator.totalTrayectory[-1])
+    squared_array = np.square(difference_array)
+    mse = squared_array.mean()
+    print(mse)
